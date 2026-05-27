@@ -9,24 +9,42 @@ interface CacheEntry {
   timestamp: number
 }
 
-// Look for cache in the project's server/data/ directory
-// Prefer project subdirectory to avoid polluting workspace root
+// On Vercel, only /tmp is writable
+const isVercel = process.env.VERCEL === '1'
+
 function findCacheDir(): string {
+  if (isVercel) {
+    return '/tmp/specs-cache'
+  }
+
   const candidates = [
-    join(process.cwd(), 'product-compare', 'server', 'data'),   // prod: cwd=workspace root
-    join(process.cwd(), 'server', 'data'),                      // dev: cwd=project
+    join(process.cwd(), 'product-compare', 'server', 'data'),
+    join(process.cwd(), 'server', 'data'),
   ]
   for (const dir of candidates) {
     if (existsSync(dir)) return dir
   }
-  // Default to workspace-root/project-name path (production)
   const defaultDir = join(process.cwd(), 'product-compare', 'server', 'data')
-  mkdirSync(defaultDir, { recursive: true })
+  try {
+    mkdirSync(defaultDir, { recursive: true })
+  } catch {
+    // fallback to /tmp if we can't write
+    return '/tmp/specs-cache'
+  }
   return defaultDir
 }
 
 const CACHE_DIR = findCacheDir()
 const CACHE_FILE = join(CACHE_DIR, 'specs-cache.json')
+
+// Ensure cache directory exists on startup (only if writable)
+try {
+  if (!existsSync(CACHE_DIR)) {
+    mkdirSync(CACHE_DIR, { recursive: true })
+  }
+} catch {
+  // Read-only filesystem — cache will be disabled
+}
 
 function loadCache(): Record<string, CacheEntry> {
   try {
@@ -41,10 +59,15 @@ function loadCache(): Record<string, CacheEntry> {
 }
 
 function saveCache(cache: Record<string, CacheEntry>) {
-  if (!existsSync(CACHE_DIR)) {
-    mkdirSync(CACHE_DIR, { recursive: true })
+  try {
+    if (!existsSync(CACHE_DIR)) {
+      mkdirSync(CACHE_DIR, { recursive: true })
+    }
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8')
+  } catch {
+    // Vercel read-only filesystem — silently skip caching
+    console.warn('[cache] write failed (read-only fs?), skipping')
   }
-  writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8')
 }
 
 function normalizeName(name: string): string {
