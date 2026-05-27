@@ -86,17 +86,17 @@ export async function saveToCache(
 /**
  * Get cache stats (for debugging)
  */
-export async function getCacheStats() {
-  if (!redis) {
-    return { status: 'disabled', reason: 'UPSTASH_REDIS env vars not set' }
-  }
-  try {
-    const info = await redis.info()
-    return {
-      status: 'connected',
-      info: info?.substring(0, 200),
-    }
-  } catch (err) {
-    return { status: 'error', error: String(err) }
-  }
-}
+ export async function getCacheStats() {
+   if (!redis) {
+     return { status: 'disabled', reason: 'UPSTASH_REDIS env vars not set' }
+   }
+   try {
+     const pong = await redis.ping()
+     return {
+       status: 'connected',
+       ping: pong,
+     }
+   } catch (err) {
+     return { status: 'error', error: String(err) }
+   }
+ }
