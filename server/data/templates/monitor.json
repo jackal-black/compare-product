@@ -1,0 +1,74 @@
+{
+  "id": "monitor",
+  "name": "显示器",
+  "icon": "🖥️",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "display",
+      "label": "屏幕参数",
+      "fields": [
+        { "key": "screenSize", "label": "屏幕尺寸", "unit": "英寸" },
+        { "key": "resolution", "label": "分辨率" },
+        { "key": "refreshRate", "label": "刷新率", "unit": "Hz" },
+        { "key": "panelType", "label": "面板类型" },
+        { "key": "responseTime", "label": "响应时间", "unit": "ms" },
+        { "key": "brightness", "label": "亮度", "unit": "cd/m²" },
+        { "key": "contrastRatio", "label": "对比度" },
+        { "key": "colorGamut", "label": "色域" },
+        { "key": "hdr", "label": "HDR" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "接口",
+      "fields": [
+        { "key": "hdmiPorts", "label": "HDMI" },
+        { "key": "displayPort", "label": "DisplayPort" },
+        { "key": "usbC", "label": "USB-C" },
+        { "key": "usbHub", "label": "USB Hub" },
+        { "key": "audioOut", "label": "音频输出" }
+      ]
+    },
+    {
+      "id": "features",
+      "label": "功能特性",
+      "fields": [
+        { "key": "curvature", "label": "曲率" },
+        { "key": "syncTech", "label": "同步技术" },
+        { "key": "pipPbp", "label": "画中画/分屏" },
+        { "key": "speakers", "label": "内置音箱" },
+        { "key": "speakerPower", "label": "音箱功率", "unit": "W" }
+      ]
+    },
+    {
+      "id": "ergonomic",
+      "label": "人体工学",
+      "fields": [
+        { "key": "heightAdjust", "label": "升降" },
+        { "key": "pivot", "label": "旋转" },
+        { "key": "swivel", "label": "左右旋转" },
+        { "key": "tilt", "label": "倾斜" },
+        { "key": "vesaMount", "label": "VESA 壁挂" }
+      ]
+    },
+    {
+      "id": "physical",
+      "label": "尺寸与重量",
+      "fields": [
+        { "key": "weight", "label": "重量", "unit": "kg" },
+        { "key": "dimensions", "label": "尺寸" },
+        { "key": "powerConsumption", "label": "功耗", "unit": "W" }
+      ]
+    }
+  ]
+}

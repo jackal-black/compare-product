@@ -1,0 +1,63 @@
+{
+  "id": "keyboard",
+  "name": "键盘",
+  "icon": "⌨️",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "design",
+      "label": "设计与尺寸",
+      "fields": [
+        { "key": "formFactor", "label": "配列" },
+        { "key": "keyCount", "label": "按键数量" },
+        { "key": "layout", "label": "布局" },
+        { "key": "weight", "label": "重量", "unit": "g" },
+        { "key": "color", "label": "颜色" },
+        { "key": "wristRest", "label": "腕托" }
+      ]
+    },
+    {
+      "id": "switches",
+      "label": "轴体",
+      "fields": [
+        { "key": "switchType", "label": "轴体类型" },
+        { "key": "switchBrand", "label": "轴体品牌" },
+        { "key": "actuationForce", "label": "触发力度", "unit": "g" },
+        { "key": "hotSwappable", "label": "热插拔" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "连接与续航",
+      "fields": [
+        { "key": "connectionType", "label": "连接方式" },
+        { "key": "wirelessTech", "label": "无线技术" },
+        { "key": "batteryType", "label": "电池类型" },
+        { "key": "batteryLife", "label": "续航", "unit": "小时" },
+        { "key": "chargingType", "label": "充电方式" }
+      ]
+    },
+    {
+      "id": "features",
+      "label": "功能特性",
+      "fields": [
+        { "key": "rgbLighting", "label": "RGB 灯光" },
+        { "key": "keycapMaterial", "label": "键帽材质" },
+        { "key": "keycapProfile", "label": "键帽高度" },
+        { "key": "nkeyRollover", "label": "全键无冲" },
+        { "key": "mediaKeys", "label": "多媒体键" },
+        { "key": "programmableKeys", "label": "可编程按键" },
+        { "key": "softwareSupport", "label": "驱动软件" }
+      ]
+    }
+  ]
+}

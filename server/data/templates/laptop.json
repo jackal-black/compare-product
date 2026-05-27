@@ -1,0 +1,82 @@
+{
+  "id": "laptop",
+  "name": "笔记本",
+  "icon": "💻",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "display",
+      "label": "屏幕",
+      "fields": [
+        { "key": "screenSize", "label": "屏幕尺寸", "unit": "英寸" },
+        { "key": "resolution", "label": "分辨率" },
+        { "key": "refreshRate", "label": "刷新率", "unit": "Hz" },
+        { "key": "panelType", "label": "面板类型" },
+        { "key": "brightness", "label": "亮度", "unit": "nit" }
+      ]
+    },
+    {
+      "id": "performance",
+      "label": "性能",
+      "fields": [
+        { "key": "chipset", "label": "处理器" },
+        { "key": "cpu", "label": "CPU 型号" },
+        { "key": "gpu", "label": "显卡" },
+        { "key": "ram", "label": "内存" },
+        { "key": "ramType", "label": "内存类型" },
+        { "key": "storage", "label": "存储" },
+        { "key": "storageType", "label": "存储类型" }
+      ]
+    },
+    {
+      "id": "battery",
+      "label": "电池",
+      "fields": [
+        { "key": "batteryCapacity", "label": "电池容量", "unit": "Wh" },
+        { "key": "batteryLife", "label": "续航时间", "unit": "小时" }
+      ]
+    },
+    {
+      "id": "ports",
+      "label": "接口",
+      "fields": [
+        { "key": "usbPorts", "label": "USB 接口" },
+        { "key": "hdmiPorts", "label": "HDMI" },
+        { "key": "thunderbolt", "label": "Thunderbolt" },
+        { "key": "audioJack", "label": "耳机接口" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "连接与网络",
+      "fields": [
+        { "key": "wifi", "label": "Wi-Fi" },
+        { "key": "bluetooth", "label": "蓝牙" }
+      ]
+    },
+    {
+      "id": "physical",
+      "label": "尺寸与重量",
+      "fields": [
+        { "key": "weight", "label": "重量", "unit": "kg" },
+        { "key": "thickness", "label": "厚度", "unit": "mm" }
+      ]
+    },
+    {
+      "id": "os",
+      "label": "系统",
+      "fields": [
+        { "key": "os", "label": "操作系统" }
+      ]
+    }
+  ]
+}

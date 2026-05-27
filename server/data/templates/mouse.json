@@ -1,0 +1,69 @@
+{
+  "id": "mouse",
+  "name": "鼠标",
+  "icon": "🖱️",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "design",
+      "label": "设计与尺寸",
+      "fields": [
+        { "key": "type", "label": "类型" },
+        { "key": "formFactor", "label": "手型" },
+        { "key": "weight", "label": "重量", "unit": "g" },
+        { "key": "dimensions", "label": "尺寸" },
+        { "key": "color", "label": "颜色" }
+      ]
+    },
+    {
+      "id": "sensor",
+      "label": "传感器",
+      "fields": [
+        { "key": "sensor", "label": "传感器型号" },
+        { "key": "maxDpi", "label": "最高 DPI" },
+        { "key": "ips", "label": "最高速度", "unit": "IPS" },
+        { "key": "acceleration", "label": "加速度", "unit": "G" },
+        { "key": "pollingRate", "label": "回报率", "unit": "Hz" }
+      ]
+    },
+    {
+      "id": "buttons",
+      "label": "按键",
+      "fields": [
+        { "key": "buttonCount", "label": "按键数量" },
+        { "key": "switchType", "label": "微动类型" },
+        { "key": "programmableButtons", "label": "可编程按键" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "连接与续航",
+      "fields": [
+        { "key": "connectionType", "label": "连接方式" },
+        { "key": "wirelessTech", "label": "无线技术" },
+        { "key": "batteryType", "label": "电池类型" },
+        { "key": "batteryLife", "label": "续航", "unit": "小时" },
+        { "key": "chargingType", "label": "充电方式" }
+      ]
+    },
+    {
+      "id": "features",
+      "label": "功能特性",
+      "fields": [
+        { "key": "rgbLighting", "label": "RGB 灯光" },
+        { "key": "onboardMemory", "label": "板载内存" },
+        { "key": "softwareSupport", "label": "驱动软件" },
+        { "key": "mouseFeet", "label": "脚贴材质" }
+      ]
+    }
+  ]
+}

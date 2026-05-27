@@ -1,0 +1,64 @@
+{
+  "id": "headphone",
+  "name": "耳机",
+  "icon": "🎧",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "design",
+      "label": "设计",
+      "fields": [
+        { "key": "type", "label": "类型" },
+        { "key": "wireless", "label": "无线" },
+        { "key": "noiseCancelling", "label": "主动降噪" },
+        { "key": "weight", "label": "重量", "unit": "g" }
+      ]
+    },
+    {
+      "id": "audio",
+      "label": "音频规格",
+      "fields": [
+        { "key": "driverSize", "label": "驱动单元", "unit": "mm" },
+        { "key": "frequencyResponse", "label": "频率响应" },
+        { "key": "impedance", "label": "阻抗", "unit": "Ω" },
+        { "key": "codecs", "label": "音频编码" }
+      ]
+    },
+    {
+      "id": "battery",
+      "label": "电池",
+      "fields": [
+        { "key": "batteryLife", "label": "续航", "unit": "小时" },
+        { "key": "chargingTime", "label": "充电时间", "unit": "小时" },
+        { "key": "fastCharge", "label": "快充" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "连接",
+      "fields": [
+        { "key": "bluetooth", "label": "蓝牙版本" },
+        { "key": "multipoint", "label": "多设备连接" },
+        { "key": "wiredOption", "label": "有线连接" }
+      ]
+    },
+    {
+      "id": "features",
+      "label": "功能特性",
+      "fields": [
+        { "key": "microphone", "label": "麦克风" },
+        { "key": "waterproof", "label": "防水等级" },
+        { "key": "appSupport", "label": "App 支持" }
+      ]
+    }
+  ]
+}

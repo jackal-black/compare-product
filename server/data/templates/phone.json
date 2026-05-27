@@ -1,0 +1,84 @@
+{
+  "id": "phone",
+  "name": "手机",
+  "icon": "📱",
+  "sections": [
+    {
+      "id": "basic",
+      "label": "基本参数",
+      "fields": [
+        { "key": "brand", "label": "品牌" },
+        { "key": "model", "label": "型号" },
+        { "key": "releaseDate", "label": "发布时间" },
+        { "key": "price", "label": "参考价格", "unit": "元" }
+      ]
+    },
+    {
+      "id": "display",
+      "label": "屏幕",
+      "fields": [
+        { "key": "screenSize", "label": "屏幕尺寸", "unit": "英寸" },
+        { "key": "resolution", "label": "分辨率" },
+        { "key": "refreshRate", "label": "刷新率", "unit": "Hz" },
+        { "key": "panelType", "label": "面板类型" },
+        { "key": "brightness", "label": "峰值亮度", "unit": "nit" }
+      ]
+    },
+    {
+      "id": "performance",
+      "label": "性能",
+      "fields": [
+        { "key": "chipset", "label": "处理器" },
+        { "key": "cpu", "label": "CPU" },
+        { "key": "gpu", "label": "GPU" },
+        { "key": "ram", "label": "运行内存" },
+        { "key": "storage", "label": "存储" }
+      ]
+    },
+    {
+      "id": "camera",
+      "label": "相机",
+      "fields": [
+        { "key": "rearCamera", "label": "后置相机" },
+        { "key": "frontCamera", "label": "前置相机" },
+        { "key": "videoMax", "label": "最高视频录制" }
+      ]
+    },
+    {
+      "id": "battery",
+      "label": "电池与充电",
+      "fields": [
+        { "key": "batteryCapacity", "label": "电池容量", "unit": "mAh" },
+        { "key": "chargingSpeed", "label": "充电功率", "unit": "W" },
+        { "key": "wirelessCharging", "label": "无线充电" }
+      ]
+    },
+    {
+      "id": "connectivity",
+      "label": "连接与网络",
+      "fields": [
+        { "key": "network", "label": "网络制式" },
+        { "key": "wifi", "label": "Wi-Fi" },
+        { "key": "bluetooth", "label": "蓝牙" },
+        { "key": "nfc", "label": "NFC" }
+      ]
+    },
+    {
+      "id": "physical",
+      "label": "尺寸与重量",
+      "fields": [
+        { "key": "weight", "label": "重量", "unit": "g" },
+        { "key": "thickness", "label": "厚度", "unit": "mm" },
+        { "key": "build", "label": "材质" },
+        { "key": "waterproof", "label": "防水等级" }
+      ]
+    },
+    {
+      "id": "os",
+      "label": "系统",
+      "fields": [
+        { "key": "os", "label": "操作系统" }
+      ]
+    }
+  ]
+}
