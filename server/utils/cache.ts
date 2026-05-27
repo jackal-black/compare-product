@@ -1,5 +1,4 @@
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { Redis } from '@upstash/redis'
 
 interface CacheEntry {
   specs: Record<string, string>
@@ -9,109 +8,95 @@ interface CacheEntry {
   timestamp: number
 }
 
-// On Vercel, only /tmp is writable
-const isVercel = process.env.VERCEL === '1'
-
-function findCacheDir(): string {
-  if (isVercel) {
-    return '/tmp/specs-cache'
+// Initialize Redis client from environment variables
+function getRedis(): Redis | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+  if (url && token) {
+    return new Redis({ url, token })
   }
-
-  const candidates = [
-    join(process.cwd(), 'product-compare', 'server', 'data'),
-    join(process.cwd(), 'server', 'data'),
-  ]
-  for (const dir of candidates) {
-    if (existsSync(dir)) return dir
-  }
-  const defaultDir = join(process.cwd(), 'product-compare', 'server', 'data')
-  try {
-    mkdirSync(defaultDir, { recursive: true })
-  } catch {
-    // fallback to /tmp if we can't write
-    return '/tmp/specs-cache'
-  }
-  return defaultDir
+  return null
 }
 
-const CACHE_DIR = findCacheDir()
-const CACHE_FILE = join(CACHE_DIR, 'specs-cache.json')
+const redis = getRedis()
+const CACHE_PREFIX = 'specs:'
 
-// Ensure cache directory exists on startup (only if writable)
-try {
-  if (!existsSync(CACHE_DIR)) {
-    mkdirSync(CACHE_DIR, { recursive: true })
-  }
-} catch {
-  // Read-only filesystem — cache will be disabled
-}
-
-function loadCache(): Record<string, CacheEntry> {
-  try {
-    if (existsSync(CACHE_FILE)) {
-      const raw = readFileSync(CACHE_FILE, 'utf-8')
-      return JSON.parse(raw)
-    }
-  } catch {
-    // If file is corrupted, start fresh
-  }
-  return {}
-}
-
-function saveCache(cache: Record<string, CacheEntry>) {
-  try {
-    if (!existsSync(CACHE_DIR)) {
-      mkdirSync(CACHE_DIR, { recursive: true })
-    }
-    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8')
-  } catch {
-    // Vercel read-only filesystem — silently skip caching
-    console.warn('[cache] write failed (read-only fs?), skipping')
-  }
-}
-
-function normalizeName(name: string): string {
-  return name.toLowerCase().trim().replace(/\s+/g, ' ')
-}
+const TTL_SECONDS = 30 * 24 * 60 * 60 // 30 days
 
 function buildCacheKey(categoryId: string, productName: string): string {
-  return `${categoryId}:${normalizeName(productName)}`
+  const name = productName.toLowerCase().trim().replace(/\s+/g, ' ')
+  return `${CACHE_PREFIX}${categoryId}:${name}`
 }
 
-export function getCachedSpecs(
+/**
+ * Try to get cached specs for a product.
+ */
+export async function getCachedSpecs(
   categoryId: string,
   productName: string,
-  maxAgeMs: number = 30 * 24 * 60 * 60 * 1000
-): CacheEntry | null {
-  const cache = loadCache()
-  const key = buildCacheKey(categoryId, productName)
-  const entry = cache[key]
-  if (!entry) return null
-  if (Date.now() - entry.timestamp > maxAgeMs) return null
-  return entry
+  maxAgeMs: number = TTL_SECONDS * 1000
+): Promise<CacheEntry | null> {
+  if (!redis) return null
+
+  try {
+    const key = buildCacheKey(categoryId, productName)
+    const data = await redis.get<CacheEntry>(key)
+    if (!data) return null
+
+    // Check if expired
+    if (Date.now() - data.timestamp > maxAgeMs) {
+      await redis.del(key)
+      return null
+    }
+
+    return data
+  } catch (err) {
+    console.warn('[cache] read error:', err)
+    return null
+  }
 }
 
-export function saveToCache(
+/**
+ * Save extracted specs to Redis cache.
+ */
+export async function saveToCache(
   categoryId: string,
   productName: string,
   specs: Record<string, string>,
   fullModelName?: string
 ) {
-  const cache = loadCache()
-  const key = buildCacheKey(categoryId, productName)
-  cache[key] = { specs, fullModelName, categoryId, productName, timestamp: Date.now() }
-  saveCache(cache)
+  if (!redis) return
+
+  try {
+    const key = buildCacheKey(categoryId, productName)
+    const entry: CacheEntry = {
+      specs,
+      fullModelName,
+      categoryId,
+      productName,
+      timestamp: Date.now(),
+    }
+    await redis.set(key, entry, { ex: TTL_SECONDS })
+    console.log(`[cache] saved: ${key}`)
+  } catch (err) {
+    console.warn('[cache] write error:', err)
+  }
 }
 
-export function getCacheStats() {
-  const cache = loadCache()
-  const entries = Object.values(cache)
-  const now = Date.now()
-  return {
-    cacheFile: CACHE_FILE,
-    totalEntries: entries.length,
-    expiredEntries: entries.filter(e => now - e.timestamp > 30 * 24 * 60 * 60 * 1000).length,
-    oldestEntry: entries.length ? new Date(Math.min(...entries.map(e => e.timestamp))).toISOString() : null,
-    newestEntry: entries.length ? new Date(Math.max(...entries.map(e => e.timestamp))).toISOString() : null,
+/**
+ * Get cache stats (for debugging)
+ */
+export async function getCacheStats() {
+  if (!redis) {
+    return { status: 'disabled', reason: 'UPSTASH_REDIS env vars not set' }
+  }
+  try {
+    const info = await redis.info()
+    return {
+      status: 'connected',
+      info: info?.substring(0, 200),
+    }
+  } catch (err) {
+    return { status: 'error', error: String(err) }
   }
 }
