@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // ---- 1. Check cache first ----
-  const cached = getCachedSpecs(categoryId, productName)
+  const cached = await getCachedSpecs(categoryId, productName)
   if (cached) {
     console.log(`[cache] HIT: ${categoryId}/${productName}`)
     return {
@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // ---- 4. Save to cache ----
-  saveToCache(categoryId, productName, result.specs, result.fullModelName)
+  await saveToCache(categoryId, productName, result.specs, result.fullModelName)
   console.log(`[cache] SAVED: ${categoryId}/${productName}`)
 
   return {
