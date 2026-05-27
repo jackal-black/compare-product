@@ -86,17 +86,35 @@ export async function saveToCache(
 /**
  * Get cache stats (for debugging)
  */
- export async function getCacheStats() {
-   if (!redis) {
-     return { status: 'disabled', reason: 'UPSTASH_REDIS env vars not set' }
-   }
-   try {
-     const pong = await redis.ping()
-     return {
-       status: 'connected',
-       ping: pong,
-     }
-   } catch (err) {
-     return { status: 'error', error: String(err) }
-   }
- }
+export async function getCacheStats() {
+  if (!redis) {
+    return { status: 'disabled', reason: 'UPSTASH_REDIS env vars not set' }
+  }
+  try {
+    const pong = await redis.ping()
+    // Get a sample cached entry to verify structure
+    const keys = await redis.keys('specs:*')
+    const sample = keys.length > 0 ? await redis.get(keys[0]) : null
+    return {
+      status: 'connected',
+      ping: pong,
+      cachedKeys: keys.length,
+      sampleKey: keys[0] || null,
+      sampleHasSpecs: sample ? typeof (sample as any).specs === 'object' : null,
+    }
+  } catch (err) {
+    return { status: 'error', error: String(err) }
+  }
+}
+
+/**
+ * Delete all cached entries
+ */
+export async function clearCache() {
+  if (!redis) return { deleted: 0 }
+  const keys = await redis.keys('specs:*')
+  if (keys.length > 0) {
+    await redis.del(...keys)
+  }
+  return { deleted: keys.length }
+}
